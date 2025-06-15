@@ -1,0 +1,9 @@
+[package]
+name = "geoproj"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+boolygon = { git = "https://github.com/hectormrc/boolygon.git", default-features = false }
+geocart = { git = "https://github.com/hectormrc/geocart.git", default-features = false }
+
