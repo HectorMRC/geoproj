@@ -1,3 +1,5 @@
+//! Orthographic map projection.
+
 use boolygon::point::Point;
 use geocart::geographic::Geographic;
 use num_traits::{Euclid, Float, FloatConst, Signed};
