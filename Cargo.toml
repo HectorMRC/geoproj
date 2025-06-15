@@ -7,8 +7,10 @@ edition = "2024"
 boolygon = { git = "https://github.com/hectormrc/boolygon.git", default-features = false }
 geocart = { git = "https://github.com/hectormrc/geocart.git", default-features = false }
 num-traits = { version = "0.2.19", default-features = false }
+thiserror = { version = "2.0.12", default-features = false }
 
 [features]
-default = ["equirectangular", "gall-stereographic"]
+default = ["equirectangular", "gall-stereographic", "orthographic"]
 equirectangular = []
 gall-stereographic = []
+orthographic = []
