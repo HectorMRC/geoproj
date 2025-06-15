@@ -6,4 +6,9 @@ edition = "2024"
 [dependencies]
 boolygon = { git = "https://github.com/hectormrc/boolygon.git", default-features = false }
 geocart = { git = "https://github.com/hectormrc/geocart.git", default-features = false }
+num-traits = { version = "0.2.19", default-features = false }
 
+[features]
+default = ["equirectangular", "gall-stereographic"]
+equirectangular = []
+gall-stereographic = []

@@ -19,7 +19,7 @@ dependencies = [
 [[package]]
 name = "geocart"
 version = "0.1.0"
-source = "git+https://github.com/hectormrc/geocart.git#004e2034acf39f5372bb6172b28d5f39e9b46142"
+source = "git+https://github.com/hectormrc/geocart.git#dd4232db375b7d1d7725f11b7de2a200be2fdab5"
 dependencies = [
  "num-traits",
 ]
@@ -30,6 +30,7 @@ version = "0.1.0"
 dependencies = [
  "boolygon",
  "geocart",
+ "num-traits",
 ]
 
 [[package]]

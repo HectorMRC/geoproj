@@ -1,3 +1,9 @@
+pub mod nonzero;
+pub mod positive;
+
+#[cfg(any(feature = "equirectangular", feature = "gall-stereographic"))]
+pub mod projection;
+
 use boolygon::point::Point;
 use geocart::geographic::Geographic;
 
