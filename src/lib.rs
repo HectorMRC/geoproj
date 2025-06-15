@@ -7,7 +7,8 @@ pub mod projection;
 use boolygon::point::Point;
 use geocart::geographic::Geographic;
 
-/// A projection is a function that maps [`Geographic`] coordinates to [`Point`]s on the plane.
+/// A projection is a function that maps [`Geographic`] coordinates to [`Point`]s on the plane, and
+/// vice-versa.
 pub trait Projection<T> {
     /// The type of error that may occur when performing the projection.
     type Error;
