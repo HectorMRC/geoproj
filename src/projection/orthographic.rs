@@ -6,17 +6,17 @@ use crate::{nonzero::NonZero, positive::Positive, Projection};
 
 #[derive(Debug, thiserror::Error)]
 pub enum OrthographicError {
-    #[error("the point does not belongs to the hemisphere")]
+    #[error("the coordinates do not belong to the hemisphere")]
     OutOfHemisphere,
-    #[error("the point does not belongs to the plane")]
-    OutOfPlane,
+    #[error("the point does not belong to the great circle")]
+    OutOfBounds,
 }
 
 /// The [Orthographic map projection](https://en.wikipedia.org/wiki/Orthographic_map_projection).
 pub struct Orthographic<T> {
     /// The radius of the globe being projected.
     pub radius: NonZero<Positive<T>>,
-    /// The central point of the hemisphere to project.
+    /// The central point of the hemisphere.
     pub origin: Geographic<T>,
 }
 
@@ -55,7 +55,7 @@ where
         let radius = self.radius.into_inner().into_inner();
 
         if p > radius {
-            return Err(OrthographicError::OutOfPlane);
+            return Err(OrthographicError::OutOfBounds);
         }
 
         let c = (p / radius).asin();

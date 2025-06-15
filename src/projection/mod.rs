@@ -1,8 +1,8 @@
 //! Implemented projections.
 
 #[cfg(feature = "equirectangular")]
-mod equirectangular;
+pub mod equirectangular;
 #[cfg(feature = "gall-stereographic")]
-mod gall_stereographic;
+pub mod gall_stereographic;
 #[cfg(feature = "orthographic")]
-mod orthographic;
+pub mod orthographic;
