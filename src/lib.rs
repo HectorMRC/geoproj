@@ -1,11 +1,6 @@
 pub mod nonzero;
 pub mod positive;
 
-#[cfg(any(
-    feature = "equirectangular",
-    feature = "gall-stereographic",
-    feature = "orthographic"
-))]
 pub mod projection;
 
 use boolygon::point::Point;

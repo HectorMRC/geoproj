@@ -6,3 +6,6 @@ pub mod equirectangular;
 pub mod gall_stereographic;
 #[cfg(feature = "orthographic")]
 pub mod orthographic;
+
+mod error;
+pub use error::Error;

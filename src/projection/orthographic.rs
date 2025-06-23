@@ -6,13 +6,7 @@ use num_traits::{Euclid, Float, FloatConst, Signed};
 
 use crate::{nonzero::NonZero, positive::Positive, Projection};
 
-#[derive(Debug, thiserror::Error)]
-pub enum OrthographicError {
-    #[error("the coordinates do not belong to the hemisphere")]
-    OutOfHemisphere,
-    #[error("the point does not belong to the great circle")]
-    OutOfBounds,
-}
+use super::Error;
 
 /// The [Orthographic map projection](https://en.wikipedia.org/wiki/Orthographic_map_projection).
 pub struct Orthographic<T> {
@@ -26,28 +20,37 @@ impl<T> Projection<T> for Orthographic<T>
 where
     T: Default + Signed + Float + FloatConst + Euclid,
 {
-    type Error = OrthographicError;
+    type Error = Error;
 
     fn project(&self, coordinates: &Geographic<T>) -> Result<Point<T>, Self::Error> {
-        let longitude = coordinates.longitude.into_inner() - self.origin.longitude.into_inner();
-        let cos_c = self.origin.latitude.into_inner().sin()
-            * coordinates.latitude.into_inner().sin()
-            + self.origin.latitude.into_inner().cos()
-                * coordinates.latitude.into_inner().cos()
-                * longitude.cos();
+        let (sin_longitude, cos_longitude) = {
+            let longitude = coordinates.longitude.into_inner() - self.origin.longitude.into_inner();
+            (longitude.sin(), longitude.cos())
+        };
 
-        if cos_c.is_sign_negative() {
-            return Err(OrthographicError::OutOfHemisphere);
+        let (sin_origin_lat, cos_origin_lat) = {
+            let origin_lat = self.origin.latitude.into_inner();
+            (origin_lat.sin(), origin_lat.cos())
+        };
+
+        let (sin_latitude, cos_latitude) = {
+            let latitude = coordinates.latitude.into_inner();
+            (latitude.sin(), latitude.cos())
+        };
+
+        if (sin_origin_lat * sin_latitude + cos_origin_lat * cos_latitude * cos_longitude)
+            .is_sign_negative()
+        {
+            return Err(Error::Unprojectable(
+                "the coordinates do not belong to the hemisphere",
+            ));
         }
 
         let radius = self.radius.into_inner().into_inner();
-        let latitude_0 = self.origin.latitude.into_inner();
-        let latitude = coordinates.latitude.into_inner();
 
         Ok(Point {
-            x: radius * latitude.cos() * longitude.sin(),
-            y: (latitude_0.cos() * latitude.sin()
-                - latitude_0.sin() * latitude.cos() * longitude.cos())
+            x: radius * cos_latitude * sin_longitude,
+            y: (cos_origin_lat * sin_latitude - sin_origin_lat * cos_latitude * cos_longitude)
                 * radius,
         })
     }
@@ -57,24 +60,29 @@ where
         let radius = self.radius.into_inner().into_inner();
 
         if p > radius {
-            return Err(OrthographicError::OutOfBounds);
+            return Err(Error::Unprojectable(
+                "the point does not belong to the great circle",
+            ));
         }
 
-        let c = (p / radius).asin();
-        let cos_c = c.cos();
-        let sin_c = c.sin();
+        let (sin_c, cos_c) = {
+            let c = (p / radius).asin();
+            (c.sin(), c.cos())
+        };
 
-        let longitude_0 = self.origin.longitude.into_inner();
-        let latitude_0 = self.origin.latitude.into_inner();
-        let cos_latitude_0 = latitude_0.cos();
-        let sin_latitude_0 = latitude_0.sin();
+        let origin_lon = self.origin.longitude.into_inner();
+
+        let (sin_origin_lat, cos_origin_lat) = {
+            let origin_lat = self.origin.latitude.into_inner();
+            (origin_lat.sin(), origin_lat.cos())
+        };
 
         Ok(Geographic {
             longitude: ((coordinates.x * sin_c)
-                .atan2(p * cos_c * cos_latitude_0 - coordinates.y * sin_c * sin_latitude_0)
-                + longitude_0)
+                .atan2(p * cos_c * cos_origin_lat - coordinates.y * sin_c * sin_origin_lat)
+                + origin_lon)
                 .into(),
-            latitude: (cos_c * sin_latitude_0 + (coordinates.y * sin_c * cos_latitude_0 / p))
+            latitude: (cos_c * sin_origin_lat + (coordinates.y * sin_c * cos_origin_lat / p))
                 .asin()
                 .into(),
             ..Default::default()
