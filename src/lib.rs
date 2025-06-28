@@ -1,7 +1,8 @@
 pub mod nonzero;
 pub mod positive;
-
 pub mod projection;
+#[cfg(feature = "serde")]
+pub mod serde;
 
 use boolygon::point::Point;
 use geocart::geographic::Geographic;
