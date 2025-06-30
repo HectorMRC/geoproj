@@ -6,7 +6,7 @@ use boolygon::point::Point;
 use geocart::geographic::Geographic;
 use num_traits::{Euclid, Float, FloatConst, Signed};
 
-use crate::{nonzero::NonZero, positive::Positive, Projection};
+use crate::{Projection, nonzero::NonZero, positive::Positive};
 
 /// The [Gall Stereographic projection](https://en.wikipedia.org/wiki/Gall_stereographic_projection).
 pub struct GallStereographic<T> {

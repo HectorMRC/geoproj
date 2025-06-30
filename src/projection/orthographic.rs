@@ -4,7 +4,7 @@ use boolygon::point::Point;
 use geocart::geographic::Geographic;
 use num_traits::{Euclid, Float, FloatConst, Signed};
 
-use crate::{nonzero::NonZero, positive::Positive, Projection};
+use crate::{Projection, nonzero::NonZero, positive::Positive};
 
 use super::Error;
 
