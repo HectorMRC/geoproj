@@ -8,6 +8,8 @@ use num_traits::{Signed, Zero};
 ///
 /// This wrapper extends the [`Positive`](geocart::positive::Positive) type.
 #[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(transparent))]
 pub struct Positive<T>(geocart::positive::Positive<T>);
 
 impl<T> From<T> for Positive<T>

@@ -4,6 +4,8 @@ use num_traits::Zero;
 
 /// A type that may take any value but zero.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(transparent))]
 pub struct NonZero<T>(T);
 
 impl<T> NonZero<T>

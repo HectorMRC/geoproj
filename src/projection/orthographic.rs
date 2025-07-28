@@ -61,7 +61,7 @@ where
 
         if p > radius {
             return Err(Error::Unprojectable(
-                "the point does not belong to the great circle",
+                "the point does not belong to the hemisphere",
             ));
         }
 
