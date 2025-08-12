@@ -11,7 +11,7 @@ checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
 [[package]]
 name = "boolygon"
 version = "0.1.0"
-source = "git+https://github.com/hectormrc/boolygon.git#094f38495df223daa3538c2e6dd7a23a37e354a9"
+source = "git+https://github.com/hectormrc/boolygon.git#b1d101db8c905677a223dbaf2b1874c989119371"
 dependencies = [
  "num-traits",
 ]
