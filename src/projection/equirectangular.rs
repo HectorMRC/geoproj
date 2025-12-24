@@ -6,7 +6,7 @@ use boolygon::point::Point;
 use geocart::{geographic::Geographic, positive::Positive};
 use num_traits::{Euclid, Float, FloatConst, Signed};
 
-use crate::{nonzero::NonZero, Projection};
+use crate::{Projection, nonzero::NonZero};
 
 /// The [equirectangular projection](https://en.wikipedia.org/wiki/Equirectangular_projection).
 #[derive(Debug)]
